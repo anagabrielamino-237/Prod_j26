@@ -1,0 +1,33 @@
+# This space is created to share knowledge that could be useful to the team. Share yours and comment on it so that is understandble. 
+
+#Example: 
+
+#1. Query to find 90-day campaigns on Promotube that have different brand IDs.
+Explanation: First, find campaigns with multiple brands (subquery), then display their posts as aditional information, in this case, from the last 90 days.
+[es] Primero encuentra campañas con varias marcas (subquery), luego muestra sus posts como información adicional, en este caso de los últimos 90 días. 
+
+
+WITH campaign_different_brands AS (
+    SELECT
+        campaign_id
+    FROM app_post
+    WHERE brand_id IS NOT NULL
+      AND created_at >= CURRENT_DATE - INTERVAL '90 days'
+    GROUP BY campaign_id
+    HAVING COUNT(DISTINCT brand_id) > 1
+)
+SELECT 
+    post.campaign_id,
+    post.brand_id,
+    p.name AS page_name,
+    post.landing_page,
+    post.id,
+    post.post_id,
+    post.created_at
+FROM app_post post
+JOIN campaign_different_brands cdb
+  ON post.campaign_id = cdb.campaign_id
+LEFT JOIN app_page p
+  ON p.brand_id = post.brand_id
+WHERE post.created_at >= CURRENT_DATE - INTERVAL '90 days'
+ORDER BY post.campaign_id, post.brand_id;
