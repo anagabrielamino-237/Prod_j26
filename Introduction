@@ -1,5 +1,5 @@
 # This space has been created to share knowledge that could be useful to the team. Share yours and comment on it so that is understandble. 
-
+                                                                                                                                                    # In editing
 #Example: 
 
 #1. Query to find 90-day campaigns on Promotube that have different brand IDs.
@@ -32,3 +32,5 @@ LEFT JOIN app_page p
   ON p.brand_id = post.brand_id
 WHERE post.created_at >= CURRENT_DATE - INTERVAL '90 days'
 ORDER BY post.campaign_id, post.brand_id;
+
+
