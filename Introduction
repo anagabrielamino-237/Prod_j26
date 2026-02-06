@@ -29,8 +29,11 @@ FROM app_post post
 JOIN campaign_different_brands cdb
   ON post.campaign_id = cdb.campaign_id
 LEFT JOIN app_page p
+
   ON p.brand_id = post.brand_id
 WHERE post.created_at >= CURRENT_DATE - INTERVAL '90 days'
 ORDER BY post.campaign_id, post.brand_id;
+
+# Editing 2_ w/propose changes 
 
 
